@@ -1,0 +1,506 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synk - Teacher View</title>
+    <style>
+        .slideimage{
+            width: 100%;
+            position: relative;
+        }
+        body {
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        td {
+            vertical-align: top;
+        }
+        .text{
+            display: inline-block;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            top: -50px;
+            left: 0;
+        }
+        .image{
+            position: relative;
+        }
+        .infopanel{
+            width: 63.2%;
+            background-color: gray;
+            position: relative;
+            margin-left: 3.6%;
+            margin-top: -4%;
+        }
+        .userImg{
+            width: 80px;
+            display: inline-block;
+        }
+        .svgImg{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .infoNum{
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            color: white;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .numDef{
+            width: 80px;
+            display: inline-block;
+            padding-left: 30px;
+        }
+        .moveslide{
+            vertical-align: middle;
+            width: 100px;
+            background-color: rgb(187, 187, 187);
+            display: inline-block;
+            border-radius: 4px;
+            border: none;
+        }
+        .endpres{
+            vertical-align: middle;
+            width: 60px;
+            background-color: red;
+            display: inline-block;
+            border-radius: 4px;
+            border: none;
+        }
+        .answerChoices{
+            height: 225px;
+            background-color: rgb(194, 194, 194);
+            display: none;
+        }
+        .answerText{
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            color: white;
+            display: inline-block;
+            position: relative;
+            z-index: 999;
+        }
+        .bar_full{
+            position: relative;
+            opacity: 1;
+            height: 35px;
+            background-color: rgb(0, 0, 0);
+            justify-content: left;
+            text-align: left;
+        }
+        .freeTextAnswers{
+            width: 100%;
+            height: 225px;
+            background-color: rgb(194, 194, 194);
+            overflow: scroll;
+        }
+        .answerDiv{
+            background-color: rgb(67, 208, 240);
+            color: white;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 1.2em;
+            width: 80%;
+            border-radius: 6px;
+            transition: 0.2s;
+            padding: 15px;
+        }
+        .slide-sketch {
+            width: 100%;
+            position: relative;
+        }
+        #paint {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 20;
+        }
+        .color-picker {
+            position: fixed;
+            background-color: #555;
+            left: 0;
+            top: 190px;
+            width: 40px;
+            height: 295px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+        .red {
+            top: 200px;
+            background-color: red;
+        }
+        .blue {
+            top: 235px;
+            background-color: blue;
+        }
+        .green {
+            top: 270px;
+            background-color: green;
+        }
+        .purple {
+            top: 305px;
+            background-color: purple;
+        }
+        .black {
+            top: 340px;
+            background-color: black;
+        }
+        .brown {
+            top: 375px;
+            background-color: #270404;
+        }
+        .yellow {
+            top: 410px;
+            background-color: yellow;
+        }
+        .erase {
+            top: 445px;
+            font-size: 21px !important;
+            background-color: white;
+            text-align: center;
+        }
+        .color-select {
+            width: 30px;
+            height: 30px;
+            position: fixed;
+            border-radius: 50%;
+            font-size: 2em;
+            left: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        #paint {
+            cursor: url('brush-fill.svg'),default;
+        }
+    </style>
+</head>
+<body style="background-color: rgb(235, 235, 235);">
+    <div class="color-picker">
+        <span class="color-select red" onclick="setColor('red')"></span>
+        <span class="color-select blue" onclick="setColor('blue')"></span>
+        <span class="color-select green" onclick="setColor('green')"></span>
+        <span class="color-select purple" onclick="setColor('purple')"></span>
+        <span class="color-select black" onclick="setColor('black')"></span>
+        <span class="color-select brown" onclick="setColor('#270404')"></span>
+        <span class="color-select yellow" onclick="setColor('yellow')"></span>
+        <span class="color-select erase" onclick="erase()"><svg style="margin-top: 5px" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash"
+            viewBox="0 0 16 16">
+            <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+            <path fill-rule="evenodd"
+                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+        </svg></span>
+    </div>
+    <img src="splash.png" width="250px">
+    <table CELLSPACING="50">
+        <col width="70%">
+        <col width="29%">
+        <tr>
+        <td>
+            <div class="image">
+                <h2 class="text">Current:</h2>
+                <div class="slide-sketch">
+                    <img class="slideimage" id="main-slide" src="slideTemplate.png">
+                    <canvas id="paint" width="100%" height="100%"></canvas>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="image">
+                <h2 class="text">Next:</h2>
+                <img src="slideTemplate.png" onerror="this.src='http://synk.aeroxplorer.com/slides/finished.png'" id="next-slide" class="top" width="100%">
+            </div>
+            <div class="image">
+                <h2 class="text">Answers:</h2>
+                <div class="answerChoices">
+                    <br>
+                    <h1 class="answerText">&nbsp;A:</h1>&nbsp;<h1 class="answerText">50%</h1>
+                    <div class="bar_full a">
+                        <p style="color: rgb(72, 72, 255); margin-top: -58;">|</p>
+                    </div>
+                    <br>
+                    <h1 style="margin-top: -10px;" class="answerText">&nbsp;B:</h1>&nbsp;<h1 style="margin-top: -10px;" class="answerText">12%</h1>
+                    <div class="bar_full b ">
+                        <p style="color: rgb(72, 72, 255); margin-top: -58;">|</p>
+                    </div>
+                    <br>
+                    <h1 style="margin-top: -10px;" class="answerText">&nbsp;C:</h1>&nbsp;<h1 style="margin-top: -10px;" class="answerText">24%</h1>
+                    <div class="bar_full c">
+                        <p style="color: rgb(72, 72, 255); margin-top: -58px;">|</p>
+                    </div>
+                    <br>
+                    <h1 style="margin-top: -10px;" class="answerText">&nbsp;D:</h1>&nbsp;<h1 style="margin-top: -10px;" class="answerText">14%</h1>
+                    <div class="bar_full d">
+                        <p style="color: rgb(72, 72, 255); margin-top: -58px;">|</p>
+                    </div>
+                </div>
+                <div class="freeTextAnswers">
+                    <center>
+                        <br>
+                        <div class="answerDiv">He decided to count all the sand on the beach as a hobby.</div>
+                        <br>
+                        <div class="answerDiv">He knew it was going to be a bad day when he saw mountain lions roaming the streets.</div>
+                        <br>
+                        <div class="answerDiv">Her scream silenced the rowdy teenagers.</div>
+                        <br>
+                        <div class="answerDiv">Separation anxiety is what happens when you can't find your phone.</div>
+                        <br>
+                        <div class="answerDiv">The sudden rainstorm washed crocodiles into the ocean.</div>
+                    </center>
+                </div>
+            </div>
+        </td>
+        </tr>
+        </table>
+        <br>
+        <div class="infopanel">
+            <div class="userImg">
+                <svg class="svgImg" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-person-fill" viewBox="0 0 16 16">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                  </svg>
+                  <h1 class="infoNum" id="total">0</h1>
+            </div>
+            <div class="numDef">
+                <svg class="svgImg" style="transform: rotateY(180deg)" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-speedometer2" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+                    <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/>
+                  </svg>
+                  <h1 class="infoNum" id="wait">0</h1>
+            </div>
+            <div class="numDef">
+                <svg class="svgImg" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
+                    <path d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"/>
+                  </svg>
+                  <h1 class="infoNum" id="ready">0</h1>
+            </div>
+            <div class="numDef">
+                <svg class="svgImg" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-exclamation-diamond" viewBox="0 0 16 16">
+                    <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
+                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                  </svg>
+                  <h1 class="infoNum" id="inactive">0</h1>
+            </div>
+            <!-- <div class="numDef">
+                <svg class="svgImg" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-brush" viewBox="0 0 16 16">
+                    <path d="M15.825.12a.5.5 0 0 1 .132.584c-1.53 3.43-4.743 8.17-7.095 10.64a6.067 6.067 0 0 1-2.373 1.534c-.018.227-.06.538-.16.868-.201.659-.667 1.479-1.708 1.74a8.118 8.118 0 0 1-3.078.132 3.659 3.659 0 0 1-.562-.135 1.382 1.382 0 0 1-.466-.247.714.714 0 0 1-.204-.288.622.622 0 0 1 .004-.443c.095-.245.316-.38.461-.452.394-.197.625-.453.867-.826.095-.144.184-.297.287-.472l.117-.198c.151-.255.326-.54.546-.848.528-.739 1.201-.925 1.746-.896.126.007.243.025.348.048.062-.172.142-.38.238-.608.261-.619.658-1.419 1.187-2.069 2.176-2.67 6.18-6.206 9.117-8.104a.5.5 0 0 1 .596.04zM4.705 11.912a1.23 1.23 0 0 0-.419-.1c-.246-.013-.573.05-.879.479-.197.275-.355.532-.5.777l-.105.177c-.106.181-.213.362-.32.528a3.39 3.39 0 0 1-.76.861c.69.112 1.736.111 2.657-.12.559-.139.843-.569.993-1.06a3.122 3.122 0 0 0 .126-.75l-.793-.792zm1.44.026c.12-.04.277-.1.458-.183a5.068 5.068 0 0 0 1.535-1.1c1.9-1.996 4.412-5.57 6.052-8.631-2.59 1.927-5.566 4.66-7.302 6.792-.442.543-.795 1.243-1.042 1.826-.121.288-.214.54-.275.72v.001l.575.575zm-4.973 3.04.007-.005a.031.031 0 0 1-.007.004zm3.582-3.043.002.001h-.002z"/>
+                  </svg>
+            </div> -->
+            <div class="moveslide">
+                <center>
+                    <button class="moveslide" onclick="prevSlide()">
+                        <svg class="movesvg" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                          </svg>
+                    </button>
+                </center>
+            </div>
+            <div class="moveslide">
+                <center>
+                    <button class="moveslide" onclick="nextSlide()">
+                        <svg class="movesvg" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                          </svg>
+                        </button>
+                </center>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="endpres">
+                <button class="endpres" onclick="endPres()">
+                    <h1 class="infoNum">End</h1>
+                </button>
+            </div>
+        </div>
+        <script>
+            const electron = require('electron');
+            const {ipcRenderer} = electron;
+            ipcRenderer.send("action:present", "TRUE");
+            const roomCode = window.location.href.split(".html?pin=")[1];
+                console.log(roomCode);
+                function endPres(){
+                    window.location.href = "closepresentation.html?pin=" + roomCode;
+                }
+            function nextSlide(){
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST","http://synk.aeroxplorer.com/api/control.php?pin=" + roomCode);
+                xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xhr.send("action=nextSlide");
+                document.getElementById("main-slide").src = document.getElementById("next-slide").src;
+                xhr.onload = function(){
+                    if(this.responseText != "TRUE"){
+                        //document.querySelector(".noConnection").style.right = "10px";
+                        console.log(this.responseText);
+                    }
+                }
+            }
+            function prevSlide(){
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://synk.aeroxplorer.com/api/control.php?pin=" + roomCode);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send("action=prevSlide");
+                xhr.onload = function () {
+                    if (this.responseText != "TRUE") {
+                        //document.querySelector(".noConnection").style.right = "10px";
+                        console.log(this.responseText);
+                    }
+                }
+            }
+            var csl_url = "";
+            var answerSlide = 1;
+            if (typeof (EventSource) !== "undefined") {
+                    var source = new EventSource("http://synk.aeroxplorer.com/room/panel_teacher.php?pin=" + roomCode);
+                    source.onmessage = function (event) {
+                        var data = event.data.replaceAll("'", '"');
+                        console.log(data);
+                        var info = JSON.parse(data);
+                        var image = info.image;
+                        var nextimage = info.nextimage;
+                        csl_url = image;
+                        document.getElementById("main-slide").src = "http://synk.aeroxplorer.com/slides/" + image;
+                        document.getElementById("next-slide").src = "http://synk.aeroxplorer.com/slides/" + nextimage;
+                        var wait,ready,inactive,total;
+                        wait = parseInt(info.wait);
+                        ready = parseInt(info.ready);
+                        inactive = parseInt(info.inactive);
+                        total = wait + ready + inactive;
+                        // if(info.sketch.length > 0){
+                        //     document.querySelector(".slide-sketch").innerHTML += "<img src='" + info.sketch + "' style='width: 100%; height: 100%;z-index: 5;user-select:none;user-drag:none;position:absolute;top:0;left:0'>";
+                        //     erase();
+                        // }
+                        document.getElementById("total").innerHTML = total;
+                        document.getElementById("ready").innerHTML = ready;
+                        document.getElementById("wait").innerHTML = wait;
+                        document.getElementById("inactive").innerHTML = inactive;
+                        //answers
+                        if (window.atob(info.responses[0]["resp" + answerSlide]).substring(0,6) == "ANSWER"){
+                            var a = [];
+                            var b = [];
+                            var c = [];
+                            var d = [];
+                            var total = info.responses.length;
+                            for(var x=0;x<info.responses.length;x++){
+                                switch(window.atob(info.responses[x]["resp" + answerSlide]).replace("ANSWER","")){
+                                    case "A":
+                                        a.push(x);
+                                    break;
+                                    case "B":
+                                        b.push(x);
+                                    break;
+                                    case "C":
+                                        c.push(x);
+                                    break;
+                                    case "D":
+                                        d.push(x);
+                                    break;
+                                }
+                                var percentages = [];
+                                var aperc = Math.round((a.length/total)*100);
+                                var bperc = Math.round((b.length/total)*100);
+                                var cperc = Math.round((c.length/total)*100);
+                                var dperc = Math.round((d.length/total)*100);
+                                percentages.push(aperc);
+                                percentages.push(bperc);
+                                percentages.push(cperc);
+                                percentages.push(dperc);
+                                percentages.forEach(p => {
+                                    if (p == 0){
+                                        p = 1;
+                                    }
+                                })
+                            }
+                            var output = '<br><h1 class="answerText">&nbsp; A:</h1>&nbsp;<h1 class="answerText">' + aperc + '%</h1>';
+                            output += '<div class="bar_full"><p style="height: 35px;background-color: rgb(72, 72, 255);color: rgb(72, 72, 255); position: relative; margin-top: -58px; width:'+ aperc + '%;">|</p></div><br><h1 style="margin-top: -10px;" class="answerText">&nbsp;B:</h1>&nbsp;<h1 style="margin-top: -10px;" class="answerText">' + bperc + '%</h1>';
+                            output += '<div class="bar_full"><p style="height: 35px;background-color: rgb(72, 72, 255);color: rgb(72, 72, 255); position: relative; margin-top: -58px; width:'+ bperc + '%;">|</p></div><br><h1 style="margin-top: -10px;" class="answerText">&nbsp;C:</h1>&nbsp;<h1 style="margin-top: -10px;" class="answerText">' + cperc + '%</h1>';
+                            output += '<div class="bar_full"><p style="height: 35px;background-color: rgb(72, 72, 255);color: rgb(72, 72, 255); position: relative; margin-top: -58px; width:'+ cperc + '%;">|</p></div><br><h1 style="margin-top: -10px;" class="answerText">&nbsp;D:</h1>&nbsp;<h1 style="margin-top: -10px;" class="answerText">' + dperc + '%</h1>';
+                            output += '<div class="bar_full"><p style="height: 35px;background-color: rgb(72, 72, 255);color: rgb(72, 72, 255); position: relative; margin-top: -58px; width:'+ dperc + '%;">|</p></div>';
+                            document.querySelector(".freeTextAnswers").querySelector("center").innerHTML = output;
+                        }else{ console.log(info.responses[0]["resp" + answerSlide].substring(0,5));
+                            document.querySelector(".freeTextAnswers").querySelector("center").innerHTML = "";
+                            for(var x=0; x<info.responses.length;x++){
+                                document.querySelector(".freeTextAnswers").querySelector("center").innerHTML += "<br><div class='answerDiv'>" + window.atob(info.responses[x]["resp" + answerSlide]) + "</div>";
+                            }
+                        }
+                    };
+                    source.onopen = function () {
+                        console.log("Open");
+                    }
+                } else {
+                    //document.querySelector(".noConnection").style.right = "10px";
+                }
+                var canvas = document.getElementById('paint');
+                    var ctx = canvas.getContext('2d');
+                    getSize(5);
+                    var sketch = document.querySelector('.slide-sketch');
+                    var sketch_style = getComputedStyle(sketch);
+                    var cwidth = document.getElementById("main-slide").clientWidth;
+                    canvas.width = cwidth;
+                    var cheight = ((cwidth/16)*10);
+                    canvas.height = cheight;
+
+                    var mouse = { x: 0, y: 0 };
+                    canvas.addEventListener('mousemove', function (e) {
+                        (e.screenX/e.clientHeight)
+                        mouse.x = (e.offsetX- this.offsetLeft);
+                        mouse.y = (e.offsetY - this.offsetTop)+15;
+                    }, false);
+                    ctx.lineJoin = 'round';
+                    ctx.lineCap = 'round';
+                    ctx.strokeStyle = "red";
+                    function setColor(colour) { ctx.strokeStyle = colour; }
+                    function getSize(size) { ctx.lineWidth = size; }
+                    canvas.addEventListener('mousedown', function (e) {
+                        ctx.beginPath();
+                        ctx.moveTo(mouse.x, mouse.y);
+
+                        canvas.addEventListener('mousemove', onPaint, false);
+                    }, false);
+                    function toBlob(dataURI) {
+                            console.log(dataURI);
+                            var byteString = atob(dataURI.split(',')[1]);
+                            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+                            var ab = new ArrayBuffer(byteString.length);
+                            var ia = new Uint8Array(ab);
+                            for (var i = 0; i < byteString.length; i++) {
+                                ia[i] = byteString.charCodeAt(i);
+                            }
+                            var blob = new Blob([ab], { type: mimeString });
+                            return blob;
+                        }
+                    window.onkeyup = function(e){
+                        if(e.keyCode == 39 || e.keyCode == 32){
+                            nextSlide();
+                        } else if(e.keyCode == 37){
+                            prevSlide();
+                        }
+                    }
+                    function exportDrawing(){
+                        var URL = canvas.toDataURL("image/png");
+                        var xhr = new XMLHttpRequest();
+                        var fd = new FormData();
+                        fd.append("pin",roomCode);
+                        fd.append("url",toBlob(URL));
+                        var slideNum = parseInt(csl_url.replace(roomCode + "_slide","").replace(".blob",""));
+                        xhr.open("POST","http://synk.aeroxplorer.com/api/updatesketch.php");
+                        fd.append("slideNum", slideNum);
+                        xhr.send(fd);
+                        console.log(slideNum);
+                        xhr.onload = function(){
+                            if(this.responseText != "TRUE"){
+                                window.alert("Failed to draw on slide: " + this.responseText);
+                            }
+                        }
+                    }
+                    canvas.addEventListener('mouseup', function () {
+                        canvas.removeEventListener('mousemove', onPaint, false);
+                        exportDrawing();
+                    }, false);
+
+                    var onPaint = function () {
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    };
+                    function erase(){
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        exportDrawing();
+                    }
+        </script>
+</body>
+</html>

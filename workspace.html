@@ -1,0 +1,1718 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Untitled Presentation - Synk</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+        body {
+            background-color: #f2f2f2;
+            font-size: 20px;
+            vertical-align: top;
+        }
+        .header {
+            width: 100%;
+            background-color: #0f3c78;
+            color: white;
+            padding: 15px;
+        }
+        #pres-title {
+            background: none;
+            color: white;
+            border: none;
+            outline: none;
+            font-size: 1.1em;
+            padding: 10px 15px;
+            width: 30%;
+        }
+        #pres-title:focus {
+            outline: solid 1px white;
+            border-radius: 5px;
+        }
+        .interactive-elements {
+            width: 20%;
+            height: 91%;
+            display: inline-block;
+            border-right: solid 3px #0f3c78;
+            vertical-align: top;
+            overflow-y: scroll;
+            user-select: none;
+        }
+        .slide-preview {
+            width: 59%;
+            height: 91%;
+            display: inline-block;
+            vertical-align: top;
+            user-select: none;
+        }
+        .various-elements {
+            width: 20%;
+            height: 91%;
+            display: inline-block;
+            border-left: solid 3px #0f3c78;
+            vertical-align: top;
+            user-select: none;
+            background-color: white;
+            overflow-y: scroll;
+        }
+        .main-slide {
+            width: 90%;
+            position: relative;
+            background-color: white;
+            left: 5%;
+            top: 4%;
+            border: none;
+            box-shadow: 0 0 8px #555;
+            border-radius: 3px;
+            overflow: hidden;
+            display: none;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .int-title {
+            width: 100%;
+            display: block;
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .single-element {
+            width: 90%;
+            position: relative;
+            left: 5%;
+            border-radius: 10px;
+            background-color: white;
+            transition: 0.2s;
+            cursor: pointer;
+            min-height: 50px;
+            text-align: center;
+            font-family: 'Quicksand', sans-serif;
+            display: block;
+            margin: 10px 0;
+            padding: 15px;
+        }
+        .single-element span {
+            display: inline-block;
+            width: 80%;
+            vertical-align: middle;
+        }
+        .single-element:hover {
+            box-shadow: 0 0 7px #555;
+        }
+        .timeline {
+            display: none;
+            position: absolute;
+            bottom: 10px;
+            font-family: 'Quicksand', sans-serif;
+            padding: 5px;
+            background-color: #0f3c78;
+            color: white;
+            min-width: 20%;
+            width: auto;
+        }
+        .timeline-element {
+            position: relative;
+            display: inline-block;
+            height: 50px;
+            width: 60px;
+            border-radius: 5px;
+            border: solid 3px #555;
+            color: black;
+            background-color: white;
+            cursor: default;
+            vertical-align: top;
+        }
+        .timeline-element span {
+            vertical-align: middle;
+            display: inline-block;
+            width: 90%;
+            margin: 0;
+        }
+        .timeline-element:focus {
+            background-color: #ccc;
+        }
+        .overlay {
+            z-index: 11;
+            top: 0;
+            left: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            opacity: 0;
+            cursor: pointer;
+        }
+        details[open] summary ~ * {
+            animation: open 0.3s ease-in-out;
+        }
+        details {
+            background-color: white;
+        }
+        details p {
+            font-family: 'Open Sans', sans-serif;
+        }
+        summary {
+            font-family: 'Oswals', sans-serif;
+            text-align: center;
+        }
+        @keyframes open {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+        }
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details summary {
+            width: 100%;
+            padding: 0.5rem 0;
+            border-top: 1px solid black;
+            position: relative;
+            cursor: pointer;
+            font-size: 1.25rem;
+            font-weight: 300;
+            list-style: none;
+        }
+        textarea {
+            background: none;
+            padding: 2px;
+        }
+        details summary:after {
+            content: "+";
+            color: black;
+            position: absolute;
+            font-size: 1.75rem;
+            line-height: 0;
+            margin-top: 0.75rem;
+            right: 0;
+            font-weight: 200;
+            transform-origin: center;
+            transition: 200ms linear;
+        }
+        details[open] summary:after {
+            transform: rotate(45deg);
+            font-size: 2rem;
+        }
+        details summary {
+            outline: 0;
+        }
+        details p {
+            font-size: 0.95rem;
+            margin: 0 0 1rem;
+            padding-top: 1rem;
+            width: 100%;
+            display: block;
+            position: relative;
+        }
+        .single-slide {
+            position: relative;
+            left: 22%;
+            width: 70%;
+            margin-bottom: 15px;
+            border: solid 3px white;
+            overflow: hidden;
+        }
+        .single-slide img {
+            width: 100%;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        .selected-slide {
+            border: solid 3px #0f3c78;
+        }
+        .slide-num {
+            position: absolute;
+            right: 109%;
+            color: #555;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: bold;
+        }
+        .elements {
+            width: 95%;
+            left: 2.3%;
+        }
+        .elements td {
+            text-align: center;
+        }
+        .draw-txt {
+            position: absolute;
+            border: solid 2px black;
+        }
+        .single-slide {
+            outline: solid 1px black;
+        }
+        .draghandle {
+            background-color: #0f3c78;
+            color: white;
+            position: absolute;
+            right: 0;
+            bottom: 100%;
+        }
+        @keyframes zoomOut {
+            0% {
+                opacity: 0;
+                transform: scale(1.3);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        @keyframes midNode {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        .full-node {
+            z-index: 9999;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.4);
+            transition: 0.2s;
+            animation-fill-mode:both;
+            animation-timing-function: ease-out;
+            animation-iteration-count: 1;
+            animation: 1s zoomOut;
+        }
+        .node-interactive {
+            background-color: white;
+            animation-fill-mode:both;
+            animation-timing-function: ease-out;
+            animation-iteration-count: 1;
+            animation: 1.5s midNode;
+            width: 70%;
+            height: 80%;
+            position: absolute;
+            left: 15%;
+            top: 10%;
+            border-radius: 5px;
+        }
+        .node-title-portion {
+            position: absolute;
+            display: block;
+            background-color: #0f3c78;
+            color: white;
+            height: 10%;
+            width: 100%;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .node-text-portion {
+            position: absolute;
+            display: block;
+            top: 10%;
+            background-color: white;
+            color: black;
+            height: 80%;
+            width: 100%;
+            padding: 10px;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .node-bottom-portion {
+            position: absolute;
+            display: block;
+            background-color: #0f3c78;
+            color: white;
+            height: 10%;
+            top: 90%;
+            width: 100%;
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+            font-family: 'Quicksand', sans-serif;
+            justify-content: right;
+        }
+        .node-title {
+            width: 100%;
+            text-align: center;
+            font-size: 40px;
+            position: absolute;
+            height: 100%;
+            vertical-align: middle;
+            padding: 5px;
+        }
+        .x-btn {
+            position: absolute;
+            right: 30px;
+            font-size: 40px;
+            cursor: pointer;
+        }
+        .node-action-btn {
+            padding: 10px 15px;
+            display: inline-block;
+            width: auto;
+            vertical-align: middle;
+            background-color: white;
+            color: #0f3c78;
+            font-family: 'Quicksand', sans-serif;
+            margin: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+        }
+        .node-text-portion label {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            display: block;
+            border: solid 1px black;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .node-text-portion center{
+            padding: 20px;
+        }
+        .node-text-portion input[type=url]{
+            padding: 10px;
+        }
+        .full-node {
+            display: none;
+        }
+        .potential-ans-group {
+            width: 100%;
+            display: block;
+        }
+        .potential-ans-group {
+            width: 100%;
+            display: block;
+        }
+        .ek input[type=text], .ek select {
+            padding: 10px 15px;
+        }
+        @keyframes wave {
+            0% {
+                background-color: #ccc;
+            }
+            50% {
+                background-color: rgb(64, 115, 255);
+            }
+            100% {
+                background-color: #ccc;
+            }
+        }
+        .preview-lnk {
+            pointer-events: none;
+        }
+        .wavy {
+            animation: 2s wave infinite;
+            transition: 0.1s;
+            animation-fill-mode: both;
+            animation-timing-function: linear;
+            position: relative;
+        }
+        .abcDEF {
+            border: solid 2px red;
+        }
+        /* Resize text box */
+        .text-box,.image{
+            height: 50px;
+            width: 150px;
+            font-size: 17px;
+            font-family: 'Arial';
+            position: absolute;
+        }
+        .image img {
+            width: 100% !important;
+            height: 100%;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        .handle{
+            position: absolute;
+            width: 11px;
+            height: 11px;
+            background-color: blue;
+            z-index: 2;
+            border-radius: 24px;
+        }
+        .ne{
+            top: -3.5px;
+            right: -3.5px;
+            cursor: nesw-resize;
+            pointer-events: none;
+            background-color: blue;
+        }
+        .nw{
+            top: -3.5px;
+            left: -3.5px;
+            cursor: nwse-resize;
+            pointer-events: none;
+            background-color: blue;
+        }
+        .sw{
+            bottom: -3.5px;
+            left: -3.5px;
+            cursor: nesw-resize;
+            pointer-events: none;
+            background-color: blue;
+        }
+        .se{
+            bottom: -3.5px;
+            right: -3.5px;
+            cursor: nwse-resize;
+            background-color: green !important;
+        }
+        .text-field {
+            width: 100%;
+            height: 100%;
+            resize: none;
+            cursor: default;
+            padding: 7px;
+            border: none;
+        }
+        .style-select {
+            background-color: #ccc;
+            border-radius: 5px;
+        }
+        .newslide {
+            background-color: #ccc;
+            color: black;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+        .newslide:active {
+            box-shadow: 0 0 4px black inset;
+        }
+        .single-theme {
+            width: 80%;
+            position: relative;
+            left: 10%;
+            margin: 5px 0;
+            border: solid 2px black;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .single-theme:hover {
+            box-shadow: 0 0 4px black;
+        }
+        .single-theme img {
+            width: 100%;
+            z-index: 1;
+        }
+        .single-theme span {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 2;
+            background: rgba(0,0,0,0.5);
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            padding: 5px;
+            border-top-right-radius: 5px;
+            color: white;
+        }
+        .right-click {
+            position: absolute;
+            left: -50%;
+            top: 0;
+            background-color: white;
+            z-index: 9999999999999999999;
+            box-shadow: 0 0 3px #ccc;
+            border-radius: 5px;
+            user-select: none;
+            -webkit-user-drag: none;
+            font-family: 'Open Sans', sans-serif;
+            width: 20%;
+        }
+        .right-click span {
+            width: 100%;
+            padding: 10px 15px;
+            color: #555;
+            display: block;
+            text-align: center;
+            cursor: pointer;
+        }
+        .right-click span:hover {
+            background-color: #eee;
+        }
+        .elements td a:link {
+            padding: 10px 0;
+            color: black;
+            display: block;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .elements td a:hover {
+            background-color: black;
+            color: white;
+        }
+        .property-selector {
+            padding: 10px;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .pic-take {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background-color: black;
+            color: white;
+            font-size: 3px;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+        }
+        @keyframes skrrtIn {
+            0% {
+                opacity: 0;
+                top: 20px;
+            }
+            100% {
+                opacity: 1;
+                top: 0;
+            }
+        }
+        .emoji-select {
+            width: 90%;
+            display: none;
+            position: relative;
+            animation: 0.2s skrrtIn;
+            animation-iteration-count: 1;
+            animation-fill-mode: both;
+            animation-timing-function: ease-out;
+        }
+        .emoji-select td {
+            padding: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .emoji-select td:hover {
+            background-color: #eee;
+        }
+        .emoji-select img {
+            width: 20px;
+            display: block;
+        }
+        @keyframes slideLeft {
+            0% {
+                right: -51%;
+            }
+            100% {
+                right: 0;
+            }
+        }
+        .terminal {
+            display: none;
+            width: 50vw;
+            height: 100vh;
+            background-color: black;
+            box-shadow: 0 0 10px black;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            z-index: 9999999999999999999999999;
+            font-family: 'Open Sans', sans-serif;
+            color: white;
+            animation: 0.2s slideLeft;
+            animation-iteration-count: 1;
+            animation-timing-function: ease-out;
+            animation-fill-mode: both;
+            transition: 0.2s;
+        }
+        .close {
+            width: 100%;
+            padding: 10px 20px;
+            color: white;
+            font-size: 1.8em;
+            display: block;
+            cursor: pointer;
+            text-align: left;
+        }
+        .term-controls {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            justify-content: center;
+        }
+        .term-controls button {
+            padding: 10px 15px;
+            background-color: black;
+            color: white;
+            font-size: 17px;
+            border-radius: 5px;
+            border: solid 2px white;
+            outline: none;
+            cursor: pointer;
+            margin: 0 15px;
+        }
+        .term-controls button:hover {
+            background-color: white;
+            color: black;
+        }
+        .pm {
+            display: grid;
+            grid-template-columns: repeat(3,30%);
+            grid-template-rows: repeat(5,200px);
+            justify-content: center;
+        }
+        .add-plugin {
+            padding: 10px;
+            font-size: 0.8em;
+            overflow-y: scroll;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .add-plugin button {
+            width: 100%;
+            display: block;
+            padding: 10px 15px;
+            background-color: black;
+            color: white;
+            margin: 5px 0px;
+            border: solid 2px black;
+            transition: 0.2s;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .add-plugin button:hover {
+            box-shadow: 0 0 10px black;
+        }
+        #terminal {
+            width: 90%;
+            text-align: left;
+            color: white;
+            position: relative;
+            left: 5%;
+            margin: 10px 0;
+            outline: none;
+            padding: 10px;
+            resize: none;
+            border: none;
+            height: 80%;
+        }
+        .plugin {
+            width: 90%;
+            position: relative;
+            left: 5%;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            border-radius: 10px;
+            font-family: 'Quicksand', sans-serif;
+            text-align: center;
+            margin: 7px 0;
+        }
+    </style>
+    <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+    <script type="text/javascript" src="rasterizeHTML.allinone.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Quicksand&display=swap" rel="stylesheet">
+</head>
+<body onload="init()">
+    <!-- TERMINAL -->
+    <div class="terminal">
+        <span class="close" onclick="closeTerminal()">&times;</span>
+        <div class="term-controls">
+            <center>
+            <button onclick="runCode()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill"
+                viewBox="0 0 16 16">
+                <path
+                    d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+            </svg> Run</button>
+            <button onclick="debugCode()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bug-fill"
+                viewBox="0 0 16 16">
+                <path
+                    d="M4.978.855a.5.5 0 1 0-.956.29l.41 1.352A4.985 4.985 0 0 0 3 6h10a4.985 4.985 0 0 0-1.432-3.503l.41-1.352a.5.5 0 1 0-.956-.29l-.291.956A4.978 4.978 0 0 0 8 1a4.979 4.979 0 0 0-2.731.811l-.29-.956z" />
+                <path
+                    d="M13 6v1H8.5v8.975A5 5 0 0 0 13 11h.5a.5.5 0 0 1 .5.5v.5a.5.5 0 1 0 1 0v-.5a1.5 1.5 0 0 0-1.5-1.5H13V9h1.5a.5.5 0 0 0 0-1H13V7h.5A1.5 1.5 0 0 0 15 5.5V5a.5.5 0 0 0-1 0v.5a.5.5 0 0 1-.5.5H13zm-5.5 9.975V7H3V6h-.5a.5.5 0 0 1-.5-.5V5a.5.5 0 0 0-1 0v.5A1.5 1.5 0 0 0 2.5 7H3v1H1.5a.5.5 0 0 0 0 1H3v1h-.5A1.5 1.5 0 0 0 1 11.5v.5a.5.5 0 1 0 1 0v-.5a.5.5 0 0 1 .5-.5H3a5 5 0 0 0 4.5 4.975z" />
+            </svg> Debug</button>
+            <button onclick="exportPlugin()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                <path fill-rule="evenodd"
+                    d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+            </svg> Publish</button>
+            <button onclick="docs()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-code"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M8.646 5.646a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L10.293 8 8.646 6.354a.5.5 0 0 1 0-.708zm-1.292 0a.5.5 0 0 0-.708 0l-2 2a.5.5 0 0 0 0 .708l2 2a.5.5 0 0 0 .708-.708L5.707 8l1.647-1.646a.5.5 0 0 0 0-.708z" />
+                <path
+                    d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z" />
+                <path
+                    d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z" />
+            </svg> Documentation</button>
+            </center>
+        </div>
+        <textarea id="terminal" spellcheck="false" autocomplete="off" placeholder="Type your code here..."></textarea>
+    </div>
+    <!-- FULL SCREEN NODES -->
+    <div class="full-node">
+        <div class="node-interactive">
+            <div class="node-title-portion">
+                <span class="node-title">Add an Image</span>
+                <span class="x-btn" onclick="setNode(0,'none')">&times;</span>
+            </div>
+            <div class="node-text-portion">
+                <label>
+                    <input type="radio" name="imageType" id="node-link"> Upload by URL<br>
+                    Image Link: <input type="url" id="node-image-url" placeholder="Paste the full image link, including http://" size="40">
+                </label>
+                <center>- OR -</center>
+                <label>
+                    <input type="radio" name="imageType" id="node-upload-link"> Upload from Computer<br>
+                    Upload Image: <input type="file" id="node-image-upload" accept="image/*">
+                </label>
+            </div>
+            <div class="node-bottom-portion">
+                <span class="node-action-btn" onclick="setNode(0,'none')">Cancel</span>
+                <span class="node-action-btn" onclick="insertImage()">Add Image &raquo;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="full-node">
+        <div class="node-interactive">
+            <div class="node-title-portion">
+                <span class="node-title">New Multiple Choice Question</span>
+                <span class="x-btn" onclick="setNode(1,'none')">&times;</span>
+            </div>
+            <div class="node-text-portion ek">
+                Question: <input type="text" id="node-mc-q" size="66">
+                <br>
+                <input type="hidden" class="now-editing" value="">
+                <span id="mc-data-vault">
+                </span>
+                <br><br>
+                Answers:
+                <span class="potential-ans-group">
+                    A. <input type="text" id="node-mc-a1" size="66"><select id="node-mc-a1-c"><option value="0">Incorrect</option><option value="1">Correct</option></select>
+                </span>
+                <span class="potential-ans-group">
+                    B. <input type="text" id="node-mc-a2" size="66"><select id="node-mc-a2-c">
+                        <option value="0">Incorrect</option>
+                        <option value="1">Correct</option>
+                    </select>
+                </span>
+                <span class="potential-ans-group">
+                    C. <input type="text" id="node-mc-a3" size="66"><select id="node-mc-a3-c">
+                        <option value="0">Incorrect</option>
+                        <option value="1">Correct</option>
+                    </select>
+                </span>
+                <span class="potential-ans-group">
+                    D. <input type="text" id="node-mc-a4" size="66"><select id="node-mc-a4-c">
+                        <option value="0">Incorrect</option>
+                        <option value="1">Correct</option>
+                    </select>
+                </span>
+            </div>
+            <div class="node-bottom-portion">
+                <span class="node-action-btn" onclick="setNode(1,'none')">Cancel</span>
+                <span class="node-action-btn" onclick="saveQuestion()">Save Question &raquo;</span>
+            </div>
+        </div>
+    </div>
+    <div class="full-node">
+        <div class="node-interactive">
+            <div class="node-title-portion">
+                <span class="node-title">New Free Response Question</span>
+                <span class="x-btn" onclick="setNode(2,'none')">&times;</span>
+            </div>
+            <div class="node-text-portion ek">
+                Question: <input type="text" id="node-frq-q" size="66">
+                <br>
+                <input type="hidden" class="frq-editing" value="">
+                <span id="frq-data-vault">
+                </span>
+                <br><br>
+            </div>
+            <div class="node-bottom-portion">
+                <span class="node-action-btn" onclick="setNode(2,'none')">Cancel</span>
+                <span class="node-action-btn" onclick="saveFRQ()">Save Question &raquo;</span>
+            </div>
+        </div>
+    </div>
+    <div class="full-node">
+        <div class="node-interactive">
+            <div class="node-title-portion">
+                <span class="node-title">Take Photo</span>
+                <span class="x-btn" onclick="closeWebcam()">&times;</span>
+            </div>
+            <div class="node-text-portion ek" style="padding: 0 !important">
+                <video id="webcam" autoplay playsinline width="640" height="480"></video>
+                <canvas id="webcamcanvas" class="d-none"></canvas>
+                <span onclick="takePic()" class="pic-take"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-camera-fill"
+                    viewBox="0 0 16 16">
+                    <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                    <path
+                        d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z" />
+                </svg></span>
+            </div>
+            <div class="node-bottom-portion">
+                <span class="node-action-btn" onclick="closeWebcam()">Cancel</span>
+            </div>
+        </div>
+    </div>
+    <div class="full-node">
+        <div class="node-interactive">
+            <div class="node-title-portion">
+                <span class="node-title">Plugin Marketplace</span>
+                <span class="x-btn" onclick="setNode(4,'none')">&times;</span>
+            </div>
+            <div class="node-text-portion ek pm" style="padding: 0 !important">
+                //
+            </div>
+            <div class="node-bottom-portion">
+                <span class="node-action-btn" onclick="setNode(4,'none')">Close</span>
+                <span class="node-action-btn" onclick="applyPlugins()">Apply</span>
+            </div>
+        </div>
+    </div>
+    <!-- END FULL SCREEN NODES -->
+    <div class="header">
+        <input type="text" id="pres-title" value="Untitled Presentation">
+    </div>
+    <div class="interactive-elements">
+        <span class="int-title">INTERACTIVE ELEMENTS</span>
+
+        <div class="single-element" data-element-type="mc">
+            <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z" />
+                <path
+                    d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z" />
+                <path fill-rule="evenodd"
+                    d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z" />
+            </svg> New Multiple Choice Question</span>
+        </div>
+
+        <div class="single-element" data-element-type="wb">
+            <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brush-fill"
+                viewBox="0 0 16 16">
+                <path
+                    d="M15.825.12a.5.5 0 0 1 .132.584c-1.53 3.43-4.743 8.17-7.095 10.64a6.067 6.067 0 0 1-2.373 1.534c-.018.227-.06.538-.16.868-.201.659-.667 1.479-1.708 1.74a8.117 8.117 0 0 1-3.078.132 3.658 3.658 0 0 1-.563-.135 1.382 1.382 0 0 1-.465-.247.714.714 0 0 1-.204-.288.622.622 0 0 1 .004-.443c.095-.245.316-.38.461-.452.393-.197.625-.453.867-.826.094-.144.184-.297.287-.472l.117-.198c.151-.255.326-.54.546-.848.528-.739 1.2-.925 1.746-.896.126.007.243.025.348.048.062-.172.142-.38.238-.608.261-.619.658-1.419 1.187-2.069 2.175-2.67 6.18-6.206 9.117-8.104a.5.5 0 0 1 .596.04z" />
+            </svg> New Whiteboard</span>
+        </div>
+
+        <div class="single-element" data-element-type="frq">
+            <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill"
+                viewBox="0 0 16 16">
+                <path
+                    d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z" />
+            </svg> New Public Free-Response Question</span>
+        </div>
+
+        <div class="single-element" data-element-type="ld">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trophy-fill"
+                viewBox="0 0 16 16">
+                <path
+                    d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935z" />
+            </svg> New Leaderboard Display</span>
+        </div>
+
+    </div>
+    <div class="slide-preview">
+        <div class="main-slide">
+            <span style="opacity: 0; cursor: default;">p</span>
+        </div>
+        <center id="timeline-cont">
+            <div class="timeline">No elements in timeline...</div>
+            <div class="timeline">No elements in timeline...</div>
+            <div class="timeline">No elements in timeline...</div>
+            <div class="timeline">No elements in timeline...</div>
+        </center>
+    </div>
+    <div class="various-elements">
+        <details open>
+            <summary>SLIDES <a class="newslide" onclick="addSlide()">+</a></summary>
+            <p id="slide-list">
+                <div id="killer" class="single-slide">
+                    <span class="slide-num">1</span>
+                    <img src="new-pres.png">
+                </div>
+                <!-- <div class="single-slide">
+                    <span class="slide-num">1</span>
+                    <img src="https://via.placeholder.com/480x300.png?text=Slide%20Placeholder">
+                </div>
+                <div class="single-slide">
+                    <span class="slide-num">1</span>
+                    <img src="https://via.placeholder.com/480x300.png?text=Slide%20Placeholder">
+                </div>
+                <div class="single-slide">
+                    <span class="slide-num">1</span>
+                    <img src="https://via.placeholder.com/480x300.png?text=Slide%20Placeholder">
+                </div>
+                <div class="single-slide">
+                    <span class="slide-num">1</span>
+                    <img src="https://via.placeholder.com/480x300.png?text=Slide%20Placeholder">
+                </div>
+                <div class="single-slide">
+                    <span class="slide-num">1</span>
+                    <img src="https://via.placeholder.com/480x300.png?text=Slide%20Placeholder">
+                </div> -->
+            </p>
+        </details>
+        <details>
+            <summary>THEMES</summary>
+            <p>
+                <div class="single-theme" onclick="selectTheme('blank')">
+                    <span>No Theme</span>
+                    <img src="blank.jpg">
+                </div>
+                <div class="single-theme" onclick="selectTheme('Aphrodite')">
+                    <span>Aphrodite</span>
+                    <img src="Aphrodite.jpg">
+                </div>
+                <div class="single-theme" onclick="selectTheme('Apollo')">
+                    <span>Apollo</span>
+                    <img src="Apollo.jpg">
+                </div>
+                <div class="single-theme" onclick="selectTheme('Ares')">
+                    <span>Ares</span>
+                    <img src="Ares.jpg">
+                </div>
+                <div class="single-theme" onclick="selectTheme('Athena')">
+                    <span>Athena</span>
+                    <img src="Athena.jpg">
+                </div>
+                <div class="single-theme" onclick="selectTheme('Hades')">
+                    <span>Hades</span>
+                    <img src="Hades.jpg">
+                </div>
+                <div class="single-theme" onclick="selectTheme('Hephaestus')">
+                    <span>Hephaestus</span>
+                    <img src="Hephaestus.jpg">
+                </div>
+                <div class="single-theme" onclick="selectTheme('Poseidon')">
+                    <span>Poseidon</span>
+                    <img src="Poseidon.jpg">
+                </div>
+                <div class="single-theme" onclick="selectTheme('Prometheus')">
+                    <span>Prometheus</span>
+                    <img src="Prometheus.jpg">
+                </div>
+                <div class="single-theme" onclick="selectTheme('Zeus')">
+                    <span>Zeus</span>
+                    <img src="Zeus.jpg">
+                </div>
+            </p>
+        </details>
+        <details>
+            <summary>ELEMENTS</summary>
+            <p>
+                <center>
+                <table class="elements">
+                    <tr>
+                        <td><a href="javascript:textBox()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-input-cursor-text"
+                            viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M5 2a.5.5 0 0 1 .5-.5c.862 0 1.573.287 2.06.566.174.099.321.198.44.286.119-.088.266-.187.44-.286A4.165 4.165 0 0 1 10.5 1.5a.5.5 0 0 1 0 1c-.638 0-1.177.213-1.564.434a3.49 3.49 0 0 0-.436.294V7.5H9a.5.5 0 0 1 0 1h-.5v4.272c.1.08.248.187.436.294.387.221.926.434 1.564.434a.5.5 0 0 1 0 1 4.165 4.165 0 0 1-2.06-.566A4.561 4.561 0 0 1 8 13.65a4.561 4.561 0 0 1-.44.285 4.165 4.165 0 0 1-2.06.566.5.5 0 0 1 0-1c.638 0 1.177-.213 1.564-.434.188-.107.335-.214.436-.294V8.5H7a.5.5 0 0 1 0-1h.5V3.228a3.49 3.49 0 0 0-.436-.294A3.166 3.166 0 0 0 5.5 2.5.5.5 0 0 1 5 2z" />
+                            <path
+                                d="M10 5h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-4v1h4a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-4v1zM6 5V4H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v-1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4z" />
+                        </svg></a></td>
+                        <td><a href="javascript:setNode(0,'block')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-image"
+                            viewBox="0 0 16 16">
+                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                            <path
+                                d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z" />
+                        </svg></a></label></td>
+                        <td><a href="javascript:newLink()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z" />
+                            <path
+                                d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z" />
+                        </svg></a></td>
+                        <td><a href="javascript:newShape('circle')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle"
+                            viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        </svg></a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:newShape('square')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-square"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                        </svg></a></td>
+                        <td><a href="javascript:newShape('curvedsquare')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-app"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M11 2a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h6zM5 1a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4V5a4 4 0 0 0-4-4H5z" />
+                        </svg></a></td>
+                        <td><a href="javascript:newShape('pentagon')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pentagon"
+                            viewBox="0 0 16 16">
+                            <path d="m8 1.288 6.842 5.56L12.267 15H3.733L1.158 6.847 8 1.288zM16 6.5 8 0 0 6.5 3 16h10l3-9.5z" />
+                        </svg></a></td>
+                        <td><a href="javascript:newShape('star')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                        </svg></a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:newShape('terminal')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-terminal"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M6 9a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 9zM3.854 4.146a.5.5 0 1 0-.708.708L4.793 6.5 3.146 8.146a.5.5 0 1 0 .708.708l2-2a.5.5 0 0 0 0-.708l-2-2z" />
+                            <path
+                                d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h12z" />
+                        </svg></a></td>
+                        <td><a href="javascript:newShape('photo')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera-fill" viewBox="0 0 16 16">
+                            <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                            <path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/>
+                        </svg></a></td>
+                        <td><a href="javascript:newShape('barcode')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upc-scan"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5zM3 4.5a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-7zm3 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7z" />
+                        </svg></a></td>
+                        <td><a href="javascript:newShape('emoji')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile"
+                            viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path
+                                d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z" />
+                        </svg></a></td>
+                    </tr>
+                </table>
+                <table class="emoji-select">
+                    <tr>
+                        <td onclick="newEmoji('laughing')"><img src="emoji_laughing.png"></td>
+                        <td onclick="newEmoji('star')"><img src="emoji_star.png"></td>
+                        <td onclick="newEmoji('surprised')"><img src="emoji_surprised.png"></td>
+                        <td onclick="newEmoji('thinking')"><img src="emoji_thinking.png"></td>
+                    </tr>
+                    <tr>
+                        <td onclick="newEmoji('teasing')"><img src="emoji_teasing.png"></td>
+                        <td onclick="newEmoji('delicious')"><img src="emoji_delicious.png"></td>
+                        <td onclick="newEmoji('heat')"><img src="emoji_heat.png"></td>
+                        <td onclick="newEmoji('lovesee')"><img src="emoji_lovesee.png"></td>
+                    </tr>
+                    <tr>
+                        <td onclick="newEmoji('cool')"><img src="emoji_cool.png"></td>
+                        <td onclick="newEmoji('shutup')"><img src="emoji_shutup.png"></td>
+                        <td onclick="newEmoji('surprise')"><img src="emoji_surprise.png"></td>
+                        <td onclick="newEmoji('devil')"><img src="emoji_devil.png"></td>
+                    </tr>
+                </table>
+            </center>
+            </p>
+        </details>
+        <details>
+            <summary>PROPERTIES</summary>
+            <div class="property-selector">
+                Font size: <button onclick="fontSize(0)">-</button><input type="num" size="3" value="17" style="text-align: center;" id="fontSizeDisp"><button onclick="fontSize(1)">+</button><br>
+                Font: <select id="font-name" onchange="setFont(event)">
+                <option value="Arial" selected>Arial</option>
+                <option value="Trebuchet MS">Trebuchet MS</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Courier New">Courier New</option>
+            </select><br>
+            Text Align: <button onclick="setAlign(0)" id="ta-left">Left</button>
+            <!-- <button onclick="setAlign(1)" id="ta-center">Center</button>
+            <button onclick="setAlign(2)" id="ta-right">Right</button> -->
+            <br>
+            Text color: <input type="color" id="text-color" oninput="setColor(event)">
+            <br>
+            Background color: <input type="color" id="text-background-color" oninput="setBgColor(event)">
+            <br>
+                Actions: <a style="text-decoration: none; color: black; padding: 5px 10px; margin: 3px; font-family: 'Trebuchet MS'; display: inline-block" onclick="boldIt(event)"><b>B</b></a>
+                <a style="text-decoration: none; color: black; padding: 5px 10px; margin: 3px; font-family: 'Times New Roman'; display: inline-block" onclick="italicizeIt(event)"><i>I</i></a>
+                <a style="text-decoration: none; color: black; padding: 5px 10px; margin: 3px; font-family: 'Trebuchet MS'; display: inline-block" onclick="underlineIt(event)"><u>U</u></a>
+            </div>
+        </details>
+        <details>
+            <summary>PLUGINS <button onclick="setNode(4,'block');loadPlugins()">+</button></summary>
+            <p id="plugin-list">
+            </p>
+        </details>
+    </div>
+    <!-- SLIDE METADATA -->
+    <input type="hidden" id="slide_num" value="">
+    <input type="hidden" id="slide_currentslide" value="1">
+    <!-- END SLIDE METADATA -->
+    <div class="right-click">
+        <span onclick="saveAll()">Save Presentation</span>
+        <span onclick="deleteElement()">Delete Element</span>
+        <span onclick="exportPresentation()">Export Presentation</span>
+        <span onclick="document.execCommand('paste');kilose()">Paste</span>
+        <span onclick="document.execCommand('copy');kilose()">Copy</span>
+        <span onclick="document.execCommand('cut');kilose()">Cut</span>
+    </div>
+    <script src="slidefunctions.js"></script>
+    <script src="exportslide.js"></script>
+    <script> 
+    const Dialogs = require('dialogs');
+    var QRCode = require('qrcode');
+    const { ipcRenderer, remote } = require("electron");
+    const dialogs = Dialogs(opts={
+        "ok":"Submit",
+        "cancel":"Cancel",
+        "hostname":"Synk Information Request"
+    });
+    const models = {
+        "body": document.body,
+        "slideshow":document.getElementById("slide-list"),
+        "timeline":document.getElementById("timeline-cont"),
+        "slides":document.querySelectorAll(".main-slide"),
+        "elements":document.querySelector(".elements"),
+        "active":document.activeElement,
+    };
+        var editingElem;
+        function dupeIt(){
+            editingElem.cloneNode();
+        }
+        function deleteElement(){
+            if(editingElem != undefined){
+                editingElem.outerHTML = "";
+                kilose();
+            } else {
+                kilose();
+            }
+        }
+        function pasteSelection(){
+            navigator.clipboard.readText().then(
+                clipText => document.querySelectorAll(".main-slide")[currentSlide].innerHTML += clipText);
+            kilose();
+        }
+        function copySelection(){
+            if(editingElem != undefined){
+                navigator.clipboard.writeText(editingElem.innerHTML);
+                kilose();
+            } else {
+                kilose();
+            }
+        }
+        function undo(){
+            document.execCommand("undo");
+        }
+        function closeTerminal(){
+            document.querySelector(".terminal").style.display = "none";
+        }
+        function editMe(e){
+            editingElem = e.target;
+            var prop = editingElem.dataset;
+            // set properties
+            document.getElementById("ta-left").style.border = "solid 0.5px black";
+            // document.getElementById("ta-center").style.border = "solid 0.5px black";
+            // document.getElementById("ta-right").style.border = "solid 0.5px black";
+            document.getElementById("fontSizeDisp").value = prop.fontSize;
+            document.getElementById("font-name").value = prop.font;
+            if(prop.textAlign != ""){
+                document.getElementById("ta-" + prop.textAlign).style.border = "solid 3px red";
+            } else {
+                document.getElementById("ta-left").style.border = "solid 3px red";
+            }
+            document.getElementById("text-color").value = prop.color;
+            document.getElementById("text-background-color").value = prop.backgroundColor;
+        }
+        function setAlign(num){
+            if(editingElem != undefined){
+                if(num == 0){
+                    editingElem.style.textAlign = "left";
+                } else if(num == 1){
+                    editingElem.style.textAlign = "center";
+                } else {
+                    editingElem.style.textAlign = "right";
+                }
+                document.getElementById("ta-left").style.border = "solid 0.5px black";
+                // document.getElementById("ta-center").style.border = "solid 0.5px black";
+                // document.getElementById("ta-right").style.border = "solid 0.5px black";
+                document.getElementById("ta-" + editingElem.style.textAlign).style.border = "solid 3px red";
+                editingElem.dataset.textAlign = editingElem.style.textAlign;
+            }
+        }
+        function setColor(e){
+            if(editingElem != undefined){
+                editingElem.style.color = e.target.value;
+                editingElem.dataset.color = e.target.value;
+            }
+        }
+        window.onkeyup = function(e){
+            console.log(e.keyCode);
+            if(e.keyCode == 83){
+                if(e.ctrlKey){
+                    saveAll();
+                    window.alert("All changes saved.");
+                }
+            }
+        }
+        
+        window.onmouseup = function(){
+            thumbnailByHTML(document.querySelectorAll(".main-slide")[currentSlide].innerHTML,currentSlide);
+        }
+        var contextOpen = false;
+        window.addEventListener("contextmenu",function(e){
+            var menu = document.querySelector(".right-click");
+            menu.style.top = e.pageY + "px";
+            menu.style.left = e.pageX + "px";
+            contextOpen = true;
+        });
+        window.onclick = function(e){
+            var menu = document.querySelector(".right-click");
+            if(e.target != menu && e.target.parentElement != menu && contextOpen){
+                contextOpen = false;
+                menu.style.top = "-50%";
+                menu.style.top = "-50%";
+            }
+        }
+        function debugCode(){
+            var code = "try{" + document.getElementById("terminal").value + "}catch(err){window.alert(err.message);}";
+            eval(code);
+        }
+        function kilose(){
+            var menu = document.querySelector(".right-click");
+                contextOpen = false;
+                menu.style.top = "-50%";
+                menu.style.top = "-50%";
+        }
+        function setBgColor(e) {
+                if (editingElem != undefined) {
+                    editingElem.style.backgroundColor = e.target.value;
+                    editingElem.dataset.backgroundColor = e.target.value;
+                }
+            }
+        function boldIt(e){
+            if(editingElem != undefined){
+                if(editingElem.style.fontWeight == "bold"){
+                    editingElem.style.fontWeight = "";
+                } else {
+                    editingElem.style.fontWeight = "bold";
+                }
+            }
+        }
+        function underlineIt(e) {
+                if (editingElem != undefined) {
+                    if (editingElem.style.textDecoration == "underline") {
+                        editingElem.style.textDecoration = "";
+                    } else {
+                        editingElem.style.textDecoration = "underline";
+                    }
+                }
+            }
+        function italicizeIt(e) {
+                if (editingElem != undefined) {
+                    if (editingElem.style.fontStyle == "italic") {
+                        editingElem.style.fontStyle = "";
+                    } else {
+                        editingElem.style.fontStyle = "italic";
+                    }
+                }
+            }
+        function setFont(e){
+            if(editingElem != undefined){
+                editingElem.style.fontFamily = e.target.value;
+                editingElem.dataset.font = e.target.value;
+            }
+        }
+        function fontSize(dir){
+            if(editingElem != undefined){
+                // get current font size
+                var currentSize = editingElem.dataset.fontSize;
+                if(dir == 1){
+                    // up
+                    currentSize++;
+                    editingElem.style.fontSize = currentSize + "px";
+                    editingElem.dataset.fontSize = currentSize;
+                } else {
+                    // down
+                    currentSize--;
+                    editingElem.style.fontSize = currentSize + "px";
+                    editingElem.dataset.fontSize = currentSize;
+                }
+                document.getElementById("fontSizeDisp").value = currentSize;
+            }
+        }
+        document.getElementById("fontSizeDisp").onchange = function(e){
+            if(editingElem != undefined){
+                currentSize = e.target.value;
+                editingElem.style.fontSize = currentSize + "px";
+                editingElem.dataset.fontSize = currentSize;
+            }
+        }
+        var currentSlide = 0;
+        document.getElementById("pres-title").addEventListener("keyup",function(){
+            document.title = document.getElementById("pres-title").value + " - Synk";
+        });
+        function changeSlide(e,num){
+            for(var x = 0; x<document.getElementsByClassName("single-slide").length; x++) {
+                document.getElementsByClassName("single-slide")[x].style.borderColor = "white";
+                document.getElementsByClassName("main-slide")[x].style.display = "none";
+                document.getElementsByClassName("timeline")[x].style.display = "none";
+            }
+            document.getElementsByClassName("main-slide")[num].style.display = "block";
+            document.getElementsByClassName("timeline")[num].style.display = "block";
+            currentSlide = num;
+            if(e.toElement.nodeName == "IMG"){
+                e.toElement.parentElement.style.borderColor = "#0f3c78";
+            }
+        }
+        function runCode(){
+            try{
+                eval(document.getElementById("terminal").value);
+            } catch(err){
+                window.alert(err.message);
+            }
+        }
+        const dialog = remote.dialog;
+        function docs(){
+            const options = {
+                type: 'question',
+                buttons: ['Close'],
+                defaultId: 2,
+                title: 'Documentation Code (SynkJS)',
+                message: '',
+                detail: 'currentSlide - user\'s current slide\nmodels:\n{\nbody: document body\nslideshow: slide list\ntimeline: timeline\nslides: user-editable slides\nelements: Panel where users can add elements\nactive: The active element\n}',
+            };
+
+            dialog.showMessageBox(null, options);
+        }
+        var blankpres = {
+            "slideid":"",
+            "name": "Untitled Presentation",
+            "timecreated": "",
+            "usercreated": "",
+            "theme": "blank",
+            "slides": [{
+                "timeline": "",
+                "elements": ""
+            }]
+        };
+        function saveAll(){
+            if(blankpres.slideid == ""){
+                window.alert("Failed to locate SaveKey. Arbitrary save used.");
+            }
+            blankpres.name = document.title.replace(" - Synk","");
+            var slideList = [];
+            for(var x=0;x<document.getElementsByClassName("main-slide").length;x++){
+                var HTML = window.btoa(encodeURI(document.getElementsByClassName("main-slide")[x].innerHTML));
+                var timeline = window.btoa(encodeURI(document.getElementsByClassName("timeline")[x].innerHTML));
+                slideList.push({
+                    "timeline": timeline,
+                    "elements": HTML
+                });
+            }
+            blankpres.slides = slideList;
+            console.log("----" + JSON.stringify(blankpres));
+            // update slides
+            for(var x=0;x<document.getElementsByClassName("main-slide").length;x++){
+                thumbnailByHTML(document.getElementsByClassName("main-slide")[x].innerHTML,x);
+            }
+            console.log("Saved");
+        }
+        function filterHTML(HTML){
+            // This function is to remove all javascript calls so that the thumbnail can load correctly
+            // first, we will remove the onclick
+            HTML = HTML.replaceAll(' onclick="editMe(event)" ','');
+            HTML = HTML.replaceAll(' onmousedown = "mousedownX(event)" ','');
+            HTML = HTML.replaceAll('<div class="handle ne"></div>','');
+            HTML = HTML.replaceAll('<div class="handle nw"></div>', '');
+            HTML = HTML.replaceAll('<div class="handle se"></div>', '');
+            HTML = HTML.replaceAll('<div class="handle sw"></div>', '');
+            HTML = HTML.replaceAll(' onmousedown="mousedownX(event)" ','');
+            HTML = HTML.replaceAll(' onerror="badIMG(event)" ','');
+            return HTML;
+        }
+        function updateThisSlide(){
+            thumbnailByHTML(document.getElementsByClassName("main-slide")[currentSlide].innerHTML,currentSlide);
+        }
+        function exportPresentation() {
+            // this function actually exports it to localstorage
+            // be sure there's no entry matching the ID, then save
+        }
+        //document.getElementsByClassName("main-slide")[currentSlide]
+        function addSlide(){
+            // find what number slide this will be
+            var slideNum = document.getElementsByClassName("main-slide").length;
+            // make the slide
+            document.querySelector(".slide-preview").innerHTML += '<div class="main-slide"><span style="opacity: 0; cursor: default;"> p</span></div >';
+            document.getElementById("timeline-cont").innerHTML += '<div class="timeline">No elements in timeline...</div>';
+            document.getElementById("slide-list").innerHTML += '<div class="single-slide" onclick="changeSlide(event,' + slideNum + ')"><span class="slide-num"> ' + parseInt(slideNum+1) + '</span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeAAAAEsCAYAAAAb/mBaAAAMHklEQVR4Xu3VwQkAAAjEMN1/abewn7jAQRC64wgQIECAAIF3gX1fNEiAAAECBAiMAHsCAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQICLAfIECAAAECgYAAB+gmCRAgQICAAPsBAgQIECAQCAhwgG6SAAECBAgIsB8gQIAAAQKBgAAH6CYJECBAgIAA+wECBAgQIBAICHCAbpIAAQIECAiwHyBAgAABAoGAAAfoJgkQIECAgAD7AQIECBAgEAgIcIBukgABAgQIHIqWAS0tHa4IAAAAAElFTkSuQmCC"></div>';
+            // set slide width and height
+
+            // I make life easier for everyone else
+            for(var x=0;x<document.getElementsByClassName("main-slide").length;x++){
+                document.getElementsByClassName("main-slide")[x].style.height = slideHeight + "%";
+            }
+            document.querySelectorAll(".main-slide")[slideNum].style.backgroundImage = "url('" + blankpres.theme + ".jpg')";
+            thumbnailByHTML("HTML",slideNum);
+            //selectTheme(blankpres.theme);
+        }
+        function slideCode(slideNum){
+            slideNum--;
+            var information = JSON.parse(localStorage.saves);
+            for (var x = 0; x < information.length; x++) {
+                if (information[x].slideid == document.getElementById("slide_num").value) {
+                    return information[x].slides[slideNum].elements;
+                }
+            }
+        }
+        var slideHeight;
+        function init(){
+            // load all assets
+            var saves = JSON.parse(localStorage.getItem("saves"));
+            document.getElementById("slide_num").value = saves.length;
+            blankpres.slideid = saves.length;
+            blankpres.name = document.title.replace(" - Synk", "");
+            blankpres.usercreated = localStorage.getItem("id");
+            blankpres.timecreated = Date.now();
+            //
+            document.getElementById("slide-list").innerHTML = '<div class="single-slide" onclick="changeSlide(event,0)"><span class="slide-num"> 1</span><img src="new-pres.png"></div>';
+            document.getElementsByClassName("main-slide")[0].style.display = "block";
+            document.getElementsByClassName("timeline")[0].style.display = "block";
+            //
+            for(var x=0;x<document.getElementsByClassName("single-slide").length;x++){
+                document.getElementsByClassName("single-slide")[x].style.border = "solid 3px white";
+            }
+            document.getElementsByClassName("single-slide")[0].style.border = "solid 3px #0f3c78";
+            // set up the slides
+            // set up the status
+            // resize and reset basic assets
+            var perc = (((document.getElementsByClassName("main-slide")[0].clientWidth/16)*10) / document.getElementsByClassName("main-slide")[0].parentElement.clientHeight)*100;
+            document.getElementsByClassName("main-slide")[0].style.height = perc + "%";
+            slideHeight = perc;
+            //add all slides from the template
+            document.getElementById("killer").outerHTML = "";
+            thumbnailByHTML(document.getElementsByClassName("main-slide")[currentSlide].innerHTML, currentSlide);
+        }
+        // make single elements draggable into the timeline
+        for(var x=0;x<document.getElementsByClassName("single-element").length;x++){
+            document.getElementsByClassName("single-element")[x].addEventListener("mousedown",drag);
+        }
+        function promptUser(e,type,ref){
+            if(e.target.parentElement.classList.contains("wavy")){
+                e.target.parentElement.classList.remove("wavy");
+            } else {
+                console.log(e.target.classList);
+            }
+            //
+            switch (type) {
+                case "MC":
+                    setNode(1,'block');
+                    initiateMC(e.target,1,ref);
+                    document.querySelectorAll(".full-node")[1].querySelector(".one-data").value = e.target.dataset.information;
+                    break;
+                case "MA":
+                    svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-bezier2" viewBox = "0 0 16 16" ><path fill-rule="evenodd"d="M1 2.5A1.5 1.5 0 0 1 2.5 1h1A1.5 1.5 0 0 1 5 2.5h4.134a1 1 0 1 1 0 1h-2.01c.18.18.34.381.484.605.638.992.892 2.354.892 3.895 0 1.993.257 3.092.713 3.7.356.476.895.721 1.787.784A1.5 1.5 0 0 1 12.5 11h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H6.866a1 1 0 1 1 0-1h1.711a2.839 2.839 0 0 1-.165-.2C7.743 11.407 7.5 10.007 7.5 8c0-1.46-.246-2.597-.733-3.355-.39-.605-.952-1-1.767-1.112A1.5 1.5 0 0 1 3.5 5h-1A1.5 1.5 0 0 1 1 3.5v-1zM2.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zm10 10a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1z" /></svg >';
+                    break;
+                case "FRQ":
+                    svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16"><path d = "M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z" /></svg >';
+                    setNode(2,'block');
+                    initiateFRQ(e.target);
+                        break;
+                case "WB":
+                    svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-brush-fill" viewBox = "0 0 16 16" ><path d="M15.825.12a.5.5 0 0 1 .132.584c-1.53 3.43-4.743 8.17-7.095 10.64a6.067 6.067 0 0 1-2.373 1.534c-.018.227-.06.538-.16.868-.201.659-.667 1.479-1.708 1.74a8.117 8.117 0 0 1-3.078.132 3.658 3.658 0 0 1-.563-.135 1.382 1.382 0 0 1-.465-.247.714.714 0 0 1-.204-.288.622.622 0 0 1 .004-.443c.095-.245.316-.38.461-.452.393-.197.625-.453.867-.826.094-.144.184-.297.287-.472l.117-.198c.151-.255.326-.54.546-.848.528-.739 1.2-.925 1.746-.896.126.007.243.025.348.048.062-.172.142-.38.238-.608.261-.619.658-1.419 1.187-2.069 2.175-2.67 6.18-6.206 9.117-8.104a.5.5 0 0 1 .596.04z" /></svg >';
+                    window.alert("Students will be able to draw on this slide.");
+                        break;
+                case "WE":
+                    svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-globe" viewBox = "0 0 16 16" ><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z" /></svg >';
+                    break;
+                case "TQ":
+                    svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-hourglass-split" viewBox = "0 0 16 16" ><path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2h-7zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48V8.35zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z" /></svg >';
+                    break;
+                case "LD":
+                    svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-trophy-fill" viewBox = "0 0 16 16" ><path d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935z" /></svg >';
+                        window.alert("A Leaderboard will display on this slide.");
+                    break;
+            }
+            //
+            return '{"name":""}';
+        }
+        function removeTimeline(e){
+            e.path[1].innerHTML = "";
+            e.path[1].outerHTML = "";
+            if(document.getElementsByClassName("timeline")[currentSlide].innerHTML == ""){
+                document.getElementsByClassName("timeline")[currentSlide].innerHTML = "No elements in timeline...";
+            }
+        }
+        function drag(e){
+            var initX = e.clientX,
+                initY = e.clientY;
+            if(e.target.nodeName == "SPAN"){
+                var element = e.target.parentElement;
+            } else if(e.target.hasAttribute("data-element-type")) {
+                var element = e.target;
+            } else {
+                return;
+            }
+            // new instance of that node
+            var placeBounds = [0,0,0,0];
+            var newNode = element.cloneNode(true);
+            document.body.appendChild(newNode);
+            newNode.style.zIndex = 10;
+            newNode.style.position = "absolute";
+            newNode.style.maxWidth = "200px";
+            newNode.style.transition = "0s";
+            newNode.style.border = "solid 2px #555";
+            newNode.style.left = initX;
+            newNode.style.top = initY;
+            var dragging = true;
+            window.onmousemove = function(e){
+                newNode.style.left = e.clientX + "px";
+                newNode.style.top = e.clientY + "px";
+                placeBounds[0] = document.getElementsByClassName("timeline")[currentSlide].offsetLeft;
+                placeBounds[1] = document.getElementsByClassName("timeline")[currentSlide].offsetLeft + document.getElementsByClassName("timeline")[currentSlide].clientWidth;
+                placeBounds[2] = document.getElementsByClassName("timeline")[currentSlide].offsetTop;
+                placeBounds[3] = document.getElementsByClassName("timeline")[currentSlide].offsetTop + document.getElementsByClassName("timeline")[currentSlide].clientHeight; 
+            }
+            window.onmouseup = function(e){
+                console.log(e.clientX,e.clientY,placeBounds);
+                if(e.clientX > placeBounds[0] && e.clientX < placeBounds[1] && e.clientY > placeBounds[2] && e.clientY < placeBounds[3] && dragging == true){
+                    // place element
+                    dragging = false;
+                    if (document.getElementsByClassName("timeline")[currentSlide].textContent.indexOf("No elements") != -1) {
+                        document.getElementsByClassName("timeline")[currentSlide].innerHTML = "";
+                    }
+                    var svg = "";
+                    var infozz = "";
+                    switch(element.dataset.elementType.toUpperCase()){
+                        case "MC":
+                            svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-list-task" viewBox = "0 0 16 16" ><path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z" /><path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z" /><path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z" /></svg >';
+                        break;
+                        case "MA":
+                            svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-bezier2" viewBox = "0 0 16 16" ><path fill-rule="evenodd"d="M1 2.5A1.5 1.5 0 0 1 2.5 1h1A1.5 1.5 0 0 1 5 2.5h4.134a1 1 0 1 1 0 1h-2.01c.18.18.34.381.484.605.638.992.892 2.354.892 3.895 0 1.993.257 3.092.713 3.7.356.476.895.721 1.787.784A1.5 1.5 0 0 1 12.5 11h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H6.866a1 1 0 1 1 0-1h1.711a2.839 2.839 0 0 1-.165-.2C7.743 11.407 7.5 10.007 7.5 8c0-1.46-.246-2.597-.733-3.355-.39-.605-.952-1-1.767-1.112A1.5 1.5 0 0 1 3.5 5h-1A1.5 1.5 0 0 1 1 3.5v-1zM2.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zm10 10a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1z" /></svg >';
+                        break;
+                        case "FRQ":
+                            svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16"><path d = "M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z" /></svg >';
+                        break;
+                        case "WB":
+                            infozz = "whiteboard";
+                            svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-brush-fill" viewBox = "0 0 16 16" ><path d="M15.825.12a.5.5 0 0 1 .132.584c-1.53 3.43-4.743 8.17-7.095 10.64a6.067 6.067 0 0 1-2.373 1.534c-.018.227-.06.538-.16.868-.201.659-.667 1.479-1.708 1.74a8.117 8.117 0 0 1-3.078.132 3.658 3.658 0 0 1-.563-.135 1.382 1.382 0 0 1-.465-.247.714.714 0 0 1-.204-.288.622.622 0 0 1 .004-.443c.095-.245.316-.38.461-.452.393-.197.625-.453.867-.826.094-.144.184-.297.287-.472l.117-.198c.151-.255.326-.54.546-.848.528-.739 1.2-.925 1.746-.896.126.007.243.025.348.048.062-.172.142-.38.238-.608.261-.619.658-1.419 1.187-2.069 2.175-2.67 6.18-6.206 9.117-8.104a.5.5 0 0 1 .596.04z" /></svg >';
+                        break;
+                        case "WE":
+                            svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-globe" viewBox = "0 0 16 16" ><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z" /></svg >';
+                        break;
+                        case "TQ":
+                            svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-hourglass-split" viewBox = "0 0 16 16" ><path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2h-7zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48V8.35zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z" /></svg >';
+                        break;
+                        case "LD":
+                            infozz = "leaderboard";
+                            svg = '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-trophy-fill" viewBox = "0 0 16 16" ><path d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935z" /></svg >';
+                        break;
+                    }
+                    document.getElementsByClassName("timeline")[currentSlide].innerHTML += '<div class="timeline-element wavy" data-information="' + infozz + '" onclick="promptUser(event,\'' + element.dataset.elementType.toUpperCase() + '\',' + document.getElementsByClassName("one-data").length + ')" oncontextmenu="removeTimeline(event)"><p class="overlay"></p><span>' + svg + '</span></div>';
+                    newNode.outerHTML = "";
+                    dragging = false;
+                    document.getElementById("mc-data-vault").innerHTML += '<input type="hidden" class="one-data" value="">';
+                } else {
+                    if(newNode){
+                        newNode.outerHTML = "";
+                    }
+                }
+                dragging = false;
+                window.onmousemove = null;
+                window.onmouseup = function(){
+                    thumbnailByHTML("NO",currentSlide);
+                }
+            }
+        }
+        function newLink(){
+            dialogs.prompt("Link URL:", URL => {
+                dialogs.prompt("Link Text:", fillerText => {
+                    document.getElementsByClassName("main-slide")[currentSlide].innerHTML += '<div class="text-box"><span onclick="editMe(event)" data-font-size="17" data-font="" data-background-color="" data-color="" data-text-decoration="" data-text-align="" class="text-field" onmousedown = "mousedownX(event)"><a class="preview-lnk" href="' + URL + '" target="_blank">' + fillerText + '</a></span><div class="handle ne"></div><div class="handle nw"></div><div class="handle sw"></div><div class="handle se"></div></div>';
+                });
+            });
+        }
+        const webcamElement = document.getElementById('webcam');
+        const canvasElement = document.getElementById('webcamcanvas');
+        const webcam = new Webcam(webcamElement, 'user',canvasElement);
+        var slideOffsetTop = 24/document.querySelectorAll(".main-slide")[currentSlide].clientWidth;
+        var slideOffsetLeft = 5/document.querySelectorAll(".main-slide")[currentSlide].clientHeight;
+        function setCrop(slideNum){
+            document.querySelectorAll(".single-slide")[slideNum].querySelector("img").style.position = "relative";
+            document.querySelectorAll(".single-slide")[slideNum].querySelector("img").style.left = "-" + slideOffsetLeft + "%";
+            document.querySelectorAll(".single-slide")[slideNum].querySelector("img").style.top = "-" + slideOffsetTop + "%";
+        }
+        function newShape(shape){
+            // barcode
+            if(shape == "barcode"){
+                var canvas = document.createElement("canvas");
+                canvas.width = 300;
+                canvas.height = 300;
+                document.body.appendChild(canvas);
+                dialogs.prompt("Barcode Information:", info => {
+                    QRCode.toCanvas(canvas, info, function (error) {
+                        if (error) console.error(error)
+                        var URL = canvas.toDataURL();
+                        var code = '<div class="image" oncontextmenu="this.outerHTML=\'\'"><div class="handle ne"></div><div class="handle nw"></div><div class="handle sw"></div><div class="handle se"></div><img style="width: 100%; height: 100%; top: inherit; left: inherit;" onmousedown = "mousedownX(event)" onerror="badIMG(event)" src="' + URL + '"></div>';
+                        document.getElementsByClassName("main-slide")[currentSlide].innerHTML += code;
+                        canvas.outerHTML = "";
+                    });
+                });
+            }
+            // bulleted list
+            if(shape == "photo"){
+                const context = canvasElement.getContext('2d');
+                context.clearRect(0, 0, canvasElement.width, canvasElement.height);
+                setNode(3, 'block');
+                document.getElementById("webcam").width = document.querySelectorAll(".node-text-portion")[3].clientWidth;
+                document.getElementById("webcam").height = document.querySelectorAll(".node-text-portion")[3].clientHeight;
+                webcam.start()
+                    .then(result => {
+                        console.log("webcam started");
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
+            if(shape == "emoji"){
+                if(document.querySelector(".emoji-select").style.display == "block"){
+                    document.querySelector(".emoji-select").style.display = "none";
+                } else {
+                    document.querySelector(".emoji-select").style.display = "block";
+                }
+            }
+            if(shape == "circle"){
+                document.querySelectorAll(".main-slide")[currentSlide].innerHTML += '<div class="image" style="width: 100px;height: 100px" oncontextmenu="this.outerHTML=\'\'"><div class="handle ne"></div><div class="handle nw"></div><div class="handle sw"></div><div class="handle se"></div><img style="width: 99%; height: 99%; top: inherit; left: inherit;" onmousedown = "mousedownX(event)" onerror="badIMG(event)" src="draw_circle.png"></div>';
+            }
+            if(shape == "square") {
+                document.querySelectorAll(".main-slide")[currentSlide].innerHTML += '<div class="image" style="width: 100px;height: 100px" oncontextmenu="this.outerHTML=\'\'"><div class="handle ne"></div><div class="handle nw"></div><div class="handle sw"></div><div class="handle se"></div><img style="width: 99%; height: 99%; top: inherit; left: inherit;" onmousedown = "mousedownX(event)" onerror="badIMG(event)" src="draw_square.png"></div>';
+            }
+            if(shape == "curvedsquare") {
+                document.querySelectorAll(".main-slide")[currentSlide].innerHTML += '<div class="image" style="width: 100px;height: 100px" oncontextmenu="this.outerHTML=\'\'"><div class="handle ne"></div><div class="handle nw"></div><div class="handle sw"></div><div class="handle se"></div><img style="width: 99%; height: 99%; top: inherit; left: inherit;" onmousedown = "mousedownX(event)" onerror="badIMG(event)" src="draw_curvedsquare.png"></div>';
+            }
+            if(shape == "star") {
+                document.querySelectorAll(".main-slide")[currentSlide].innerHTML += '<div class="image" style="width: 100px;height: 100px" oncontextmenu="this.outerHTML=\'\'"><div class="handle ne"></div><div class="handle nw"></div><div class="handle sw"></div><div class="handle se"></div><img style="width: 99%; height: 99%; top: inherit; left: inherit;" onmousedown = "mousedownX(event)" onerror="badIMG(event)" src="draw_star.png"></div>';
+            }
+            if (shape == "pentagon") {
+                document.querySelectorAll(".main-slide")[currentSlide].innerHTML += '<div class="image" style="width: 100px;height: 100px" oncontextmenu="this.outerHTML=\'\'"><div class="handle ne"></div><div class="handle nw"></div><div class="handle sw"></div><div class="handle se"></div><img style="width: 99%; height: 99%; top: inherit; left: inherit;" onmousedown = "mousedownX(event)" onerror="badIMG(event)" src="draw_pentagon.png"></div>';
+            }
+            if (shape == "triangle") {
+                document.querySelectorAll(".main-slide")[currentSlide].innerHTML += '<div class="image" style="width: 100px;height: 100px" oncontextmenu="this.outerHTML=\'\'"><div class="handle ne"></div><div class="handle nw"></div><div class="handle sw"></div><div class="handle se"></div><img style="width: 99%; height: 99%; top: inherit; left: inherit;" onmousedown = "mousedownX(event)" onerror="badIMG(event)" src="draw_triangle.png"></div>';
+            }
+            if(shape == "terminal"){
+                document.querySelector(".terminal").style.display = "block";
+            }
+        }
+        function closeWebcam() {
+            webcam.stop();
+            setNode(3,'none');
+        }
+        function takePic(){
+            let picture = webcam.snap();
+            var code = '<div class="image" oncontextmenu="this.outerHTML=\'\'"><div class="handle ne"></div><div class="handle nw"></div><div class="handle sw"></div><div class="handle se"></div><img style="width: 100%; height: 100%; top: inherit; left: inherit;" onmousedown = "mousedownX(event)" onerror="badIMG(event)" src="' + picture + '"></div>';
+            document.getElementsByClassName("main-slide")[currentSlide].innerHTML += code;
+            closeWebcam();
+        }
+        function newEmoji(emojiName){
+            var code = '<div class="image" oncontextmenu="this.outerHTML=\'\'"><div class="handle ne"></div><div class="handle nw"></div><div class="handle sw"></div><div class="handle se"></div><img style="width: 100%; height: 100%; top: inherit; left: inherit;" onmousedown = "mousedownX(event)" onerror="badIMG(event)" src="emoji_' + emojiName + '.png"></div>';
+            document.getElementsByClassName("main-slide")[currentSlide].innerHTML += code;
+
+        }
+    </script>
+    <script src="plugins.js"></script>
+</body>
+</html>

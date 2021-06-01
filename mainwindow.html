@@ -1,0 +1,221 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Synk...</title>
+    <style type="text/css">
+    * {
+        box-sizing: border-box;
+        margin: 0;
+    }
+    body { 
+        background: rgb(0, 0, 0);
+        transition: 0.3s;
+    }
+    .loading {
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    @keyframes spin { /*setting keyframes for loading icon*/
+        100% {
+            transform: rotateZ(0deg);
+        }
+        75% {
+            transform: rotateZ(90deg);
+        }
+        50% {
+            transform: rotateZ(180deg);
+        }
+        25% {
+            transform: rotateZ(270deg);
+        }
+        0% {
+            transform: rotateZ(360deg);
+        }
+    }
+    .loading-img { /*animating loading icon*/
+        animation: 3s spin infinite;
+        animation-fill-mode: both;
+        animation-timing-function: linear;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        z-index: 10;
+    }
+    .login {
+        width: 100%;
+        height: 100%;
+        display: none;
+        padding-top: 10px;
+    }
+    input[type=text],input[type=password]{ /*stylizing the sign in boxes*/
+        padding: 10px 15px;
+        border: solid 1px #555;
+        background-color: rgb(245, 245, 245);
+        width: 70%;
+        display: block;
+        border-radius: 5px;
+        outline: none;
+        transition: 0.2s;
+    }
+    label {
+        margin: 10px 0;
+    }
+    .txt-lbl { /*stylizing the prompt labels*/
+        font-size: 1em;
+        font-family: 'Quicksand', sans-serif;;
+        font-weight: bold;
+        width: 70%;
+        margin-top: 7px;
+        margin-bottom: 1px;
+        color: white;
+        display: block;
+        text-align: left;
+    }
+    input[type=text]:focus,input[type=password]:focus { 
+        box-shadow: 0 0 7px white;
+    }
+    #login-btn { /*stylizing the login button*/
+        padding: 8px 15px;
+        border: solid 1px #555;
+        background-color: #7289DA;
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+        border: none;
+        width: 50%;
+        border-radius: 5px;
+        margin-top: 10px;
+        font-family: 'Quicksand', sans-serif;
+        cursor: pointer;
+        transition: 0.2s all;
+        border-width: 3px solid;
+    }
+    #login-btn:hover {
+        background-color: white;
+        color: #7289DA;
+    }
+    .splash-img {
+        width: 100%;
+        height: 100%;
+        z-index: 5;
+    }
+    #assets-loading {
+        color: white;
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        font-size: 0.8em;
+        font-family: 'Quicksand', sans-serif;
+        font-weight: bold;
+    }
+    /*font-family: 'Oswald', sans-serif;
+font-family: 'Quicksand', sans-serif;*/
+    </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Quicksand&display=swap" rel="stylesheet">
+</head>
+<body onload="init()">
+    
+    <div class="loading">
+        <img src="splash.png" onerror="window.alert('NO')" class="splash-img">
+        <img src="loading.png" class="loading-img">
+        <span id="assets-loading">Loading...</span>
+    </div>
+    <div class="login">
+        <center>
+            <labeL><span class="txt-lbl">EMAIL OR USERNAME</span><input type="text" id="username" onkeyup="checkForEnter(event)" placeholder="Username"></labeL>
+            <labeL><span class="txt-lbl">PASSWORD</span><input type="password" id="password" onkeyup="checkForEnter(event)" placeholder="Password"></labeL>
+            <input type="submit" value="Login" id="login-btn" onclick="validateLogin()">
+        </center>
+    </div>
+    <script>
+        const electron = require('electron');
+        const {ipcRenderer} = electron;
+        function init(){ 
+            var filesToLoad = 293;
+            var filesLoaded = 0;
+            function call(){
+                filesLoaded++;
+                setTimeout(function(){
+                    if(filesLoaded < filesToLoad){
+                        call();
+                    } else {
+                        doneLoading();
+                    }
+                },20);
+                document.getElementById("assets-loading").innerHTML = filesLoaded + " of " + filesToLoad + " assets loaded.";
+            }
+            call();
+        }
+        function doneLoading(){
+            setTimeout(checkLoggedIn,1000);
+        }
+        // These next two parts see if the enter key is pressed while typing so that the form can be submitted.
+        document.getElementById("username").onkeyup = function(e){
+            console.log("UP");
+        }
+        function checkForEnter(e){
+            e.preventDefault();
+            if(e.keyCode == 13){
+                validateLogin();
+            }
+        }
+        function failedLogin(reason){
+            window.alert(reason);
+        }
+        // When the login button is clicked, validate the login
+        document.getElementById("login-btn").addEventListener("click",validateLogin);
+        // Validate login function
+        function validateLogin(){
+            document.querySelector('.login').style.opacity = 0.5;
+            document.getElementById("username").disabled = true;
+            document.getElementById("password").disabled = true;
+            var username = window.btoa(document.getElementById("username").value),
+                password = window.btoa(document.getElementById("password").value);
+            if(username.length > 0 && password.length > 0){
+                var xhr = new XMLHttpRequest();
+                // check database to see if fields are correct
+                xhr.open("POST","https://synk.aeroxplorer.com/api/login/validate.php");
+                xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xhr.send("username=" + username + "&password=" + password);
+                xhr.onload = function(){
+                    console.log(this.responseText);
+                    var info = JSON.parse(this.responseText);
+                    if(info.result = "TRUE"){
+                        // Success! Set main fields, send positive flag to main.js, close this window
+                        localStorage.setItem("username",window.atob(info.fields.username));
+                        localStorage.setItem("email",window.atob(info.fields.email));
+                        localStorage.setItem("name",window.atob(info.fields.name));
+                        localStorage.setItem("id",window.atob(info.fields.userid));
+                        ipcRenderer.send("login:status","TRUE");
+                        window.close();
+                    } else {
+                        // There was an error signing in
+                        failedLogin(info.reason);
+                    }
+                    document.getElementById("username").disabled = false;
+                    document.getElementById("password").disabled = false;
+                    document.querySelector('.login').style.opacity = 1;
+                }
+            } else {
+                // User left fields blank
+                failedLogin("Please do not leave fields blank.");
+                document.getElementById("username").disabled = false;
+                document.getElementById("password").disabled = false;
+                document.querySelector('.login').style.opacity = 1;
+            }
+        }
+        // when the assets are loaded, check to see if the user is login
+        function checkLoggedIn(){
+            ipcRenderer.send("login:status","TRUE");
+            window.close();
+        }
+    </script>
+</body>
+</html>

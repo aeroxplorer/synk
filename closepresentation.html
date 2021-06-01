@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Close Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: black;
+        }
+        .big-img {
+            width: 40%;
+            position: fixed;
+            top: 35%;
+            left: 30%;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        @keyframes load {
+            100% {
+                transform: rotateZ(0deg);
+            }
+            50% {
+                transform: rotateZ(180deg);
+            }
+            0% {
+                transform: rotateZ(360deg);
+            }
+        }
+        .loading {
+            width: 35px;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            transform: rotateX(180deg);
+            animation: 1s load infinite;
+            animation-timing-function: linear;
+        }
+    </style>
+</head>
+<body>
+    <img src="loading.png" class="loading">
+    <img src="splash.png" class="big-img">
+    <script>
+        document.body.onload = function(){
+            setTimeout(function(){
+                window.close();
+            },1500);
+        }
+    </script>
+</body>
+</html>

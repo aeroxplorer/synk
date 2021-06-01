@@ -1,0 +1,139 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Complete</title>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #4b6cb7; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #4b6cb7, #182848); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #4b6cb7, #182848);
+        }
+        /* customizable snowflake styling */
+        .snowflake {
+        color: #fff;
+        font-size: 1em;
+        font-family: Arial;
+        text-shadow: 0 0 1px #000;
+        }
+
+        @-webkit-keyframes snowflakes-fall{0%{top:-10%}100%{top:100%}}@-webkit-keyframes snowflakes-shake{0%{-webkit-transform:translateX(0px);transform:translateX(0px)}50%{-webkit-transform:translateX(80px);transform:translateX(80px)}100%{-webkit-transform:translateX(0px);transform:translateX(0px)}}@keyframes snowflakes-fall{0%{top:-10%}100%{top:100%}}@keyframes snowflakes-shake{0%{transform:translateX(0px)}50%{transform:translateX(80px)}100%{transform:translateX(0px)}}.snowflake{position:fixed;top:-10%;z-index:9999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default;-webkit-animation-name:snowflakes-fall,snowflakes-shake;-webkit-animation-duration:10s,3s;-webkit-animation-timing-function:linear,ease-in-out;-webkit-animation-iteration-count:infinite,infinite;-webkit-animation-play-state:running,running;animation-name:snowflakes-fall,snowflakes-shake;animation-duration:10s,3s;animation-timing-function:linear,ease-in-out;animation-iteration-count:infinite,infinite;animation-play-state:running,running}.snowflake:nth-of-type(0){left:1%;-webkit-animation-delay:0s,0s;animation-delay:0s,0s}.snowflake:nth-of-type(1){left:10%;-webkit-animation-delay:1s,1s;animation-delay:1s,1s}.snowflake:nth-of-type(2){left:20%;-webkit-animation-delay:6s,.5s;animation-delay:6s,.5s}.snowflake:nth-of-type(3){left:30%;-webkit-animation-delay:4s,2s;animation-delay:4s,2s}.snowflake:nth-of-type(4){left:40%;-webkit-animation-delay:2s,2s;animation-delay:2s,2s}.snowflake:nth-of-type(5){left:50%;-webkit-animation-delay:8s,3s;animation-delay:8s,3s}.snowflake:nth-of-type(6){left:60%;-webkit-animation-delay:6s,2s;animation-delay:6s,2s}.snowflake:nth-of-type(7){left:70%;-webkit-animation-delay:2.5s,1s;animation-delay:2.5s,1s}.snowflake:nth-of-type(8){left:80%;-webkit-animation-delay:1s,0s;animation-delay:1s,0s}.snowflake:nth-of-type(9){left:90%;-webkit-animation-delay:3s,1.5s;animation-delay:3s,1.5s}
+        @keyframes float {
+            0% {
+                top: 15%;
+                left: 0;
+            } 
+            33% {
+                transform: rotateZ(1deg) rotateX(1deg);
+                left: -2%;
+                top: 13%;
+            }
+            66% {
+                transform: rotateZ(-1deg) rotateX(-1deg);
+                left: 2%;
+                top: 7%;
+            }
+            100% {
+                top: 15%;
+                left: 0;
+            }
+        }
+        .snowflake {
+            width: 10px;
+            height: 10px;
+            border-radius: 50px;
+            background-color: white;
+        }
+        .instructions {
+            width: 100vw;
+            position: relative;
+            top: 15%;
+            animation: 30s float infinite;
+            animation-timing-function: linear;
+            animation-fill-mode: both;
+            transition: 0.2s;
+        }
+        .code {
+            font-size: 100px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+            color: white;
+        }
+        .smaller-text {
+            width: 100%;
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            text-align: center;
+            font-size: 30px;
+
+        }
+        b {
+            color: red;
+        }
+        .action-buttons {
+            position: fixed;
+            bottom: 25px;
+            right: 15px;
+        }
+        .action-buttons a:link, .action-buttons a:visited {
+            padding: 10px 15px;
+            color: black;
+            background-color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 25px;
+            margin: 5px;
+            border: solid 3px white;
+            font-family: 'Open Sans', sans-serif;
+            transition: 0.2s;
+        }
+        .action-buttons a:hover {
+            box-shadow: 0 0 7px white;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Quicksand&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="snowflakes" aria-hidden="true">
+        <div class="snowflake"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake"></div>
+    </div>
+    <div class="instructions">
+        <div class="smaller-text">First, go to <b>synk.aeroxplorer.com</b> and enter code:</div>
+        <div class="code">A B C D E F</div>
+        <div class="smaller-text">Wait for your teacher to begin!</div>
+    </div>
+    <div class="action-buttons">
+        <a href="closepresentation.html" id='end-link' style="background-color: rgb(255, 109, 109) !important">End</a>
+        <a href="teacherinterface.html" id='interface-link'>Begin &raquo;</a>
+    </div>
+    <script>
+        document.body.onload = function(){
+            var code = window.location.href.split(".html?pin=")[1];
+            var spacedCode = "";
+            for(var x=0;x<code.length;x++){
+                spacedCode += code.charAt(x) + " ";
+            }
+            document.getElementById("end-link").href = "closepresentation.html?pin=" + code;
+            document.getElementById("interface-link").href = "teacherinterface.html?pin=" + code;
+            document.getElementsByClassName("code")[0].textContent = spacedCode.trim();
+        }
+    </script>
+</body>
+</html>

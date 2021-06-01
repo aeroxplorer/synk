@@ -1,0 +1,137 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Presentations</title>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #f2f2f2;
+        }
+        .top-bar {
+            width: 100%;
+            padding: 10px;
+            background-color: #0f3c78;
+            display: block;
+        }
+        .single-slides {
+            cursor: pointer;
+        }
+        .single-slides img {
+            width: 100%;
+        }
+        .single-slides:first-of-type img {
+            position: relative;
+            top: -15px;
+        }
+        .pres-grid > div {
+            display: inline-block;
+            width: 27%;
+            margin: 3%;
+        }
+        #search{
+            border-radius: 4px;
+            background-color: #f2f2f2;
+            color: grey;
+            border: 3px solid grey;
+            transition: 0.8s;
+            width: 50%;
+            outline: none;
+            font-size: 1em;
+            padding: 10px;
+            background-image: url("search.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+            padding-left: 40px;
+        }
+        #search:focus{
+            border: 3px solid #7289DA;
+        }
+        .node-name {
+            display: block;
+            width: 90%;
+            text-align: center;
+            font-size: 15px;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .no-press {
+            padding: 10px;
+            margin-top: 50px;
+            font-family: 'Quicksand', sans-serif;
+            display: block;
+        }
+    </style>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Quicksand&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="top-bar">
+        <img src="pfp.png" width="45px">
+    </div>
+    <br>
+    <center>
+    <input type="search" id="search" onkeyup="filter(event)" placeholder="Search...">
+    <div class="pres-grid">
+        <div class="first-one single-slides" onclick="newPresentation()">
+            <img src="new-pres.png">
+        </div>
+    </div>
+    </center>
+    <script type="text/javascript">
+    var saves;
+    const electron = require('electron');
+    const {ipcRenderer} = electron;
+    function newPresentation(){
+        ipcRenderer.send("pres:new","TRUE");
+    }
+    if(localStorage.getItem("saves") == undefined){
+        localStorage.setItem("saves",JSON.stringify({}));
+        saves = JSON.parse(localStorage.saves);
+    } else {
+        saves = JSON.parse(localStorage.saves);
+    }
+    var slideFeed = document.querySelector(".pres-grid");
+    document.body.onload = function(){
+        if(saves.length == 0 || saves.length == undefined){
+            slideFeed.innerHTML = "<span class='no-press'>Looks like you don't have any presentations! <button onclick='newPresentation()'>Create One</button></span>";
+        } else {
+            for(var x=0;x<saves.length;x++){
+                slideFeed.innerHTML += '<div class="single-slides" data-slide-name="' + saves[x].name + '"><img src="default-pres.png"><span class="node-name">' + saves[x].name + '</span></div>';
+            }
+        }
+    }
+    function filter(e){
+        var query = e.target.value.toUpperCase();
+        for(var x=0;x<document.querySelectorAll(".single-slides:not(.first-one)").length;x++){
+            if(document.querySelectorAll(".single-slides:not(.first-one)")[x].dataset.slideName.toUpperCase().indexOf(query) == -1){
+                document.querySelectorAll(".single-slides:not(.first-one)")[x].style.display = "none";
+            } else {
+                document.querySelectorAll(".single-slides:not(.first-one)")[x].style.display = "inline-block";
+            }
+        }
+    }
+    var exampleSave = [
+        {
+        "name":"My First Presentation",
+        "timecreated":"",
+        "usercreated":"",
+        "theme":"",
+        "slides":[{
+            "timeline":"",
+            "elements":""
+        }]
+    },
+        {
+            "name": "My Secondex Presentation",
+            "timecreated": "",
+            "usercreated": "",
+            "slides": [{}]
+        }
+    ];
+    </script>
+</body>
+</html>
